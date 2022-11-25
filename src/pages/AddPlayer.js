@@ -1,12 +1,17 @@
 import React, { useState } from 'react'
 import { useNavigate} from "react-router-dom";
 import '../style/mainstyle.scss'
+import { db } from '../service/firebase';
+import {collection, addDoc} from 'firebase/firestore';
+import { async } from '@firebase/util';
 
-export default function Main() {
-    const [playerData,setPlayerData]=useState({
-        firstName:"",
-        lastName:""
-    });
+export default function Main(props) {
+    const [playerData,setPlayerData]=useState(
+        {
+            firstName:"",
+            lastName:""
+        }
+    );
 
     const navigate=useNavigate();
 
@@ -16,13 +21,21 @@ export default function Main() {
       value = e.target.value;
       setPlayerData({ ...playerData, [name]: value });
     };
-    const handleSubmit=(event)=>{
+    const handleSubmit=async(event)=>{
         event.preventDefault();
-        navigate('/player-list')
+        if(playerData !==""){
+                await addDoc(collection(db, "playerData"), {
+                    playerData,
+                    completed: false,
+                });
+            }
+            setPlayerData("");
+            navigate('/player-list')
+        }
         console.log(navigate)
 
 
-    }
+    
     
     return (
     <div className='container shadow min-vh-100 py-4'>
