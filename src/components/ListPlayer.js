@@ -1,7 +1,7 @@
 import { async } from "@firebase/util";
 import React, { useEffect, useState } from "react";
 import PlayerDataService from "../service/player-service";
-import { AiFillDelete } from "react-icons/ai";
+import { AiFillDelete,AiOutlinePlusCircle } from "react-icons/ai";
 import { FaRegEdit } from "react-icons/fa";
 import  Modal  from "react-bootstrap/Modal";
 import  Button  from "react-bootstrap/Button";
@@ -11,6 +11,11 @@ export default function ListPLayer() {
   const [availableDataId, setAvailableDataId] = useState("");
   const [availableDataFirstName, setAvailableDataFirstName] = useState("");
   const [availableDataLastName, setAvailableDataLastName] = useState("");
+  const [selectGroup, setSelectGroup] = useState([
+    "Group 1",
+    "Group 2"
+  ]);
+  
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -19,9 +24,7 @@ export default function ListPLayer() {
 
   const handleUpdate = async () => {
     const current = new Date();
-    const date = `${current.getDate()}/${
-      current.getMonth() + 1
-    }/${current.getFullYear()}`;
+    const date = `${current.toUTCString()}`;
 
     if (availableDataFirstName === "" || availableDataLastName === "") {
       console.log("Required data missing");
@@ -75,22 +78,59 @@ export default function ListPLayer() {
       }
     }
   };
+  const addGroup = async (e) => {
+    e.preventDefault();
+    const setGroup={
+      selectGroup
+
+    }
+    if(selectGroup==="" ){
+      console.log("Required data missing");
+      alert("Please fill the required details");
+      return;
+  }
+  try{
+      
+      setSelectGroup();
+  }
+  catch (err) {
+      console.log(err);
+      return;
+  }
+  }
+   
 
   return (
     <div className="container shadow min-vh-100 py-4 mt-3">
       <table className="table">
         <thead>
-          <th scope="col">FirstName</th>
-          <th scope="col">LastName</th>
-          <th scope="col"></th>
+          <th scope="col">First Name</th>
+          <th scope="col">Last Name</th>
+          <th scope="col">Created Date</th>
+          <th></th>
         </thead>
         <tbody>
           {playerDatas.map((players) => (
             <tr key={players.id}>
               <td>{players.firstName}</td>
               <td>{players.lastName}</td>
+              <td>{players.date}</td>
+
               <td>
                 <div>
+                  <span>
+                  <div className="dropdown" >
+  <a className="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onClick={addGroup()}>
+    Select
+  </a>
+
+  <ul class="dropdown-menu">
+    <li><a className="dropdown-item" href="#">Group 1</a></li>
+    <li><a className="dropdown-item" href="#">Group 2</a></li>
+    
+  </ul>
+</div>
+                  </span>
                   <span>
                     <FaRegEdit
                       id="i"
@@ -100,7 +140,8 @@ export default function ListPLayer() {
                         editPlayers(
                           players.id,
                           players.firstName,
-                          players.lastName
+                          players.lastName,
+                          players.date
                         )
                       }
                     />
@@ -120,7 +161,17 @@ export default function ListPLayer() {
           ))}
         </tbody>
       </table>
-     < Modal show={open} onHide={handleUpdate} >
+
+      <div>
+      <table className="table">
+        <thead>
+          <th scope="col">Group 1</th>
+          <th scope="col">Group 2</th>
+          </thead>
+        </table>
+      </div>
+  
+      <Modal show={open} onHide={handleUpdate} >
         <Modal.Header closeButton>
           <Modal.Title>Update Player</Modal.Title>
         </Modal.Header>
@@ -150,5 +201,7 @@ export default function ListPLayer() {
         </Modal.Footer>
       </Modal>
     </div>
+
+
   );
 }

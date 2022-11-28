@@ -22,6 +22,7 @@ class PlayerDataService{
         const playerDataDoc=doc(db,"playerData",id);
         return deleteDoc(playerDataDoc);
     }
+    
 }
 
 export default new PlayerDataService();
