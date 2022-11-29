@@ -34,12 +34,12 @@ export default function AddPlayer(props) {
   };
 
   return (
-    <div className="container shadow min-vh-100 py-4">
+    <div className="container shadow min-vh-100 py-4 mb-3 mt-3">
       <form onSubmit={handleSubmit}>
         <div className="row">
           <div className="row mt-5">
             <div className="col-md-5 mx-auto">
-              <label>FirstName</label>
+              <label className="font-weight-bold">First Name</label>
               <div className="input-group">
                 <input
                   className="form-control border"
@@ -54,7 +54,7 @@ export default function AddPlayer(props) {
           </div>
           <div className="row mt-5">
             <div className="col-md-5 mx-auto">
-              <label>LastName</label>
+              <label className="font-weight-bold">Last Name</label>
               <div className="input-group">
                 <input
                   className="form-control border"
@@ -69,7 +69,7 @@ export default function AddPlayer(props) {
           </div>
           <div className="row mt-5">
             <div className="col-md-5 mx-auto">
-              <button className="btnInput " type="submit">
+              <button className="btnInput text-white " type="submit">
                 Save
               </button>
             </div>

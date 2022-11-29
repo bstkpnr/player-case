@@ -76,16 +76,13 @@ export default function ListPLayer() {
       }
     }
   };
-  const addGroup = async (e) => {
-    e.preventDefault();
-    console.log("Tıklandı");
-  };
+
   const handleChange = (e) => {
     setSelectGroup(e.target.value);
   };
 
   return (
-    <div className="container shadow min-vh-100 py-4 mt-3">
+    <div className="container shadow min-vh-100 py-4 mt-3 mb-3">
       <table className="table">
         <thead>
           <th scope="col">First Name</th>
@@ -140,7 +137,7 @@ export default function ListPLayer() {
                   <span>
                     <FaRegEdit
                       id="i"
-                      color="blue"
+                      color="#5CB8E4"
                       size={24}
                       onClick={() =>
                         editPlayers(
