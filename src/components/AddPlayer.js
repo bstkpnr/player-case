@@ -11,7 +11,7 @@ export default function AddPlayer(props) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const current = new Date();
-    const date = `${current.toUTCString()}`;
+    const date = `${current.toLocaleDateString()}/ ${current.toLocaleTimeString()}`;
     const addPlayer = {
       firstName,
       lastName,
