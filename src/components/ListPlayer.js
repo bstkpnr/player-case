@@ -1,21 +1,18 @@
 import { async } from "@firebase/util";
 import React, { useEffect, useState } from "react";
 import PlayerDataService from "../service/player-service";
-import { AiFillDelete,AiOutlinePlusCircle } from "react-icons/ai";
+import { AiFillDelete, AiOutlinePlusCircle } from "react-icons/ai";
 import { FaRegEdit } from "react-icons/fa";
-import  Modal  from "react-bootstrap/Modal";
-import  Button  from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
 export default function ListPLayer() {
   const [playerDatas, setPlayerDatas] = useState([]);
   const [availableDataId, setAvailableDataId] = useState("");
   const [availableDataFirstName, setAvailableDataFirstName] = useState("");
   const [availableDataLastName, setAvailableDataLastName] = useState("");
-  const [selectGroup, setSelectGroup] = useState([
-    "Group 1",
-    "Group 2"
-  ]);
-  
+  const [selectGroup, setSelectGroup] = useState(["Group 1", "Group 2"]);
+
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -36,6 +33,7 @@ export default function ListPLayer() {
       firstName: availableDataFirstName,
       lastName: availableDataLastName,
       date,
+      group: selectGroup,
     };
 
     try {
@@ -66,7 +64,7 @@ export default function ListPLayer() {
     setAvailableDataId(id);
     setAvailableDataFirstName(name);
     setAvailableDataLastName(nameLast);
-    console.log("tıklandı")
+    console.log("tıklandı");
   };
   const deletePlayers = async (id) => {
     if (window.confirm("Are you sure you want to delete this?")) {
@@ -80,25 +78,11 @@ export default function ListPLayer() {
   };
   const addGroup = async (e) => {
     e.preventDefault();
-    const setGroup={
-      selectGroup
-
-    }
-    if(selectGroup==="" ){
-      console.log("Required data missing");
-      alert("Please fill the required details");
-      return;
-  }
-  try{
-      
-      setSelectGroup();
-  }
-  catch (err) {
-      console.log(err);
-      return;
-  }
-  }
-   
+    console.log("Tıklandı");
+  };
+  const handleChange = (e) => {
+    setSelectGroup(e.target.value);
+  };
 
   return (
     <div className="container shadow min-vh-100 py-4 mt-3">
@@ -119,17 +103,31 @@ export default function ListPLayer() {
               <td>
                 <div>
                   <span>
-                  <div className="dropdown" >
-  <a className="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onClick={addGroup()}>
-    Select
-  </a>
+                    <div className="dropdown">
+                      <a
+                        className="btn btn-secondary dropdown-toggle"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        onChange={handleChange}
+                      >
+                        Select
+                      </a>
 
-  <ul class="dropdown-menu">
-    <li><a className="dropdown-item" href="#">Group 1</a></li>
-    <li><a className="dropdown-item" href="#">Group 2</a></li>
-    
-  </ul>
-</div>
+                      <ul class="dropdown-menu">
+                        <li>
+                          <a className="dropdown-item" href="#"  onChange={handleChange}>
+                            Group 1
+                          </a>
+                        </li>
+                        <li>
+                          <a className="dropdown-item" href="#"  onChange={handleChange}>
+                            Group 2
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
                   </span>
                   <span>
                     <FaRegEdit
@@ -152,7 +150,6 @@ export default function ListPLayer() {
                       color="red"
                       onClick={() => deletePlayers(players.id)}
                       size={24}
-
                     />
                   </span>
                 </div>
@@ -163,45 +160,76 @@ export default function ListPLayer() {
       </table>
 
       <div>
-      <table className="table">
-        <thead>
-          <th scope="col">Group 1</th>
-          <th scope="col">Group 2</th>
+        <table className="table">
+          <thead>
+            <th scope="col">Group 1</th>
+            <th scope="col">Group 2</th>
           </thead>
+          {
+            
+            selectGroup==="Group1" ? playerDatas.map((e)=>{
+              <tr>
+                <td>{e.firstName}</td>
+                <td>{e.lastName}</td>
+
+              </tr>
+            }):
+            (selectGroup==="Group2" ? playerDatas.map((e)=>{
+              <tr>
+                <td>{e.firstName}</td>
+                <td>{e.lastName}</td>
+
+              </tr>
+            }):<></>)
+          }
+      
         </table>
       </div>
-  
-      <Modal show={open} onHide={handleUpdate} >
+      <Modal show={open} onHide={handleUpdate}>
         <Modal.Header closeButton>
           <Modal.Title>Update Player</Modal.Title>
         </Modal.Header>
-        <Modal.Body><div className="row mt-5">
-        <div className="col-md-5 mx-auto">
-           <label>FirstName</label>
-            <div className="input-group">
-                <input className="form-control border" type="text" id="firstname" name='firstName' value={availableDataFirstName} onChange={(e)=>setAvailableDataFirstName(e.target.value)} />
+        <Modal.Body>
+          <div className="row mt-5">
+            <div className="col-md-5 mx-auto">
+              <label>FirstName</label>
+              <div className="input-group">
+                <input
+                  className="form-control border"
+                  type="text"
+                  id="firstname"
+                  name="firstName"
+                  value={availableDataFirstName}
+                  onChange={(e) => setAvailableDataFirstName(e.target.value)}
+                />
+              </div>
             </div>
-        </div>
-    </div>
-    <div className="row mt-5">
-        <div className="col-md-5 mx-auto">
-           <label>LastName</label>
-            <div className="input-group">
-                <input className="form-control border" type="text"  id="lastname" name='lastName' value={availableDataLastName} onChange={(e)=>setAvailableDataLastName(e.target.value)} />
+          </div>
+          <div className="row mt-5">
+            <div className="col-md-5 mx-auto">
+              <label>LastName</label>
+              <div className="input-group">
+                <input
+                  className="form-control border"
+                  type="text"
+                  id="lastname"
+                  name="lastName"
+                  value={availableDataLastName}
+                  onChange={(e) => setAvailableDataLastName(e.target.value)}
+                />
+              </div>
             </div>
-        </div>
-    </div></Modal.Body>
+          </div>
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCancel}>
             Close
           </Button>
           <Button variant="primary" onClick={handleUpdate}>
-            Updated 
+            Updated
           </Button>
         </Modal.Footer>
       </Modal>
     </div>
-
-
   );
 }
