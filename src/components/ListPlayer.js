@@ -117,12 +117,20 @@ export default function ListPLayer() {
 
                       <ul class="dropdown-menu">
                         <li>
-                          <a className="dropdown-item" href="#"  onChange={handleChange}>
+                          <a
+                            className="dropdown-item"
+                            href="#"
+                            onChange={handleChange}
+                          >
                             Group 1
                           </a>
                         </li>
                         <li>
-                          <a className="dropdown-item" href="#"  onChange={handleChange}>
+                          <a
+                            className="dropdown-item"
+                            href="#"
+                            onChange={handleChange}
+                          >
                             Group 2
                           </a>
                         </li>
@@ -165,24 +173,23 @@ export default function ListPLayer() {
             <th scope="col">Group 1</th>
             <th scope="col">Group 2</th>
           </thead>
-          {
-            
-            selectGroup==="Group1" ? playerDatas.map((e)=>{
+          {selectGroup === "Group1" ? (
+            playerDatas.map((e) => {
               <tr>
                 <td>{e.firstName}</td>
                 <td>{e.lastName}</td>
-
-              </tr>
-            }):
-            (selectGroup==="Group2" ? playerDatas.map((e)=>{
+              </tr>;
+            })
+          ) : selectGroup === "Group2" ? (
+            playerDatas.map((e) => {
               <tr>
                 <td>{e.firstName}</td>
                 <td>{e.lastName}</td>
-
-              </tr>
-            }):<></>)
-          }
-      
+              </tr>;
+            })
+          ) : (
+            <></>
+          )}
         </table>
       </div>
       <Modal show={open} onHide={handleUpdate}>
